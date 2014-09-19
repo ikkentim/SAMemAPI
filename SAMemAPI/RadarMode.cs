@@ -13,16 +13,10 @@
 
 namespace SAMemAPI
 {
-    public class HandlingPool : MemoryObject
+    public enum RadarMode : byte
     {
-        public HandlingPool(ProcessMemory memory)
-            : base(memory)
-        {
-        }
-
-        public Handling this[int index]
-        {
-            get { return new Handling(Memory[224*index]); }
-        }
+        MapsAndBlips = 0,
+        Blips = 1,
+        Off = 2
     }
 }

@@ -13,27 +13,39 @@
 
 namespace SAMemAPI
 {
-    public class CVehiclePool : MemoryObject
+    public class CPedPool : Pool<CPed>
     {
-        public CVehiclePool(ProcessMemory memory)
-            : base(memory)
+        public CPedPool(ProcessMemory memory)
+            : base(memory, 0x7C4, 0)
         {
         }
 
         [Address(0)]
-        public CVehicle FirstElement { get; set; }
+        public CPed FirstElement { get; set; }
 
         //+4 = Contains a pointer to a byte map indicating which elements are in use
 
+        public override int Length
+        {
+            get { return MaxElements; }
+            protected set { }
+        }
+
         [Address(8)]
-        public int MaxElements { get; set; }
+        private int MaxElements { get; set; }
 
         [Address(12)]
-        public int Elements { get; set; }
+        private int Elements { get; set; }
 
-        public CPed this[int i]
+        public override CPed this[int i]
         {
-            get { return new CPed(Memory.AtOffset(0).AsPointer() + (i*0xA18)); }
+            get
+            {
+                // TODO: Map index using +4 bytemap
+
+                //FirstElement + Offset
+                return new CPed(Memory.AtOffset(0).AsPointer() + (i*BlockSize));
+            }
         }
     }
 }

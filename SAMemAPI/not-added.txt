@@ -1,0 +1,73 @@
+﻿
+    /*
+        * 
+        * Things not added yet
+         
+     * * cars in garage ???
+     * menu data
+        Camera
+
+    0xB6F028 - Camera Block Start (CCamera)
+    0x52B730 - Start of camera 'MOVer' subroutine:
+    0xC3 = lock camera (retn)
+    0xB6F0DC - [dword] Current View:
+    0 = bumper View
+    1 = close external view
+    2 = middle external view
+    3 = furthest external view
+    4 = nothing = same as last?
+    5 = cinematic view
+    6 to INF = same as 4?
+    0xB6F0E0 - [float] Car View Distance (arm length)
+    0xB6F0E8 - [float] True View Distance (true arm length)
+        * 
+        * 
+        * ???
+        * 0xB6F3B8 = Pointer to Target.
+
+        +0x79C [dword] = Targetted CPed:
+        0 = no cped targetted
+        +0xC0 = Pointer to last object (ped, car, maybe others) you collided with
+        * 
+        * 
+        * Controls
+        0xB73458 - Start of controls block.
+
+        +0x20 = [word] Accelerate:
+        0 = off
+        255 = on
+        +0x22 = [word] Brake
+        */
+
+    /*
+    public class Bullet : MemoryObject
+    {
+        //Note: It works only for Sniper Rifle
+        public Bullet(ProcessMemory memory) : base(memory)
+        {
+        }
+
+        [Address(12)]
+        public byte BulletExists { get; set; }
+
+        //0 = Does not exist
+        //1 = Exists
+        [Address(16)]
+        public float X { get; set; }
+
+        [Address(20)]
+        public float Y { get; set; }
+
+        [Address(24)]
+        public float Z { get; set; }
+
+    }
+
+    public class BulletPool : MemoryObject
+    {//Start at 0xC88740 
+
+        //block size unknown
+        public BulletPool(ProcessMemory memory) : base(memory)
+        {
+        }
+    }*/

@@ -13,15 +13,9 @@
 
 namespace SAMemAPI
 {
-    public class CheckpointPool : MemoryObject
+    public enum HudMode
     {
-        public CheckpointPool(ProcessMemory memory) : base(memory)
-        {
-        }
-
-        public Checkpoint this[int index]
-        {
-            get { return new Checkpoint(Memory[38*index]); }
-        }
+        Off = 0,
+        On = 1
     }
 }

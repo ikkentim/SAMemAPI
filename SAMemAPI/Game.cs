@@ -11,7 +11,6 @@
 // 
 // For more information, please refer to <http://unlicense.org>
 
-//Thanks to : http://www.gtamodding.com/?title=Memory_Addresses_(SA)
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -63,20 +62,17 @@ namespace SAMemAPI
         [Address(0xB700F0)]
         public int CurrentCarIDNotForBikes { get; set; }
 
+        /// <summary>
+        /// </summary>
+        /// <remarks>Same as <see cref="MenuShow" />.</remarks>
         [Address(0xB7CB49)]
-        public byte GameFreezesLikeWhenInMenu { get; set; }
+        public bool FreezeGame { get; set; }
 
+        /// <summary>
+        /// </summary>
+        /// <remarks>Same as <see cref="FreezeGame" />.</remarks>
         [Address(0xB7CB49)]
-        public byte GameFreezesLikeWhenInMenuEnum { get; set; }
-
-        //0 = normal
-        //1= everything stops
-
-        [Address(0xB7CB49)]
-        public byte MenuShowEnum { get; set; }
-
-        //0 = leave
-        //1 = show
+        public bool MenuShow { get; set; }
 
         [Address(0x863984)]
         public float Gravity { get; set; }
@@ -196,10 +192,7 @@ namespace SAMemAPI
         public int UniqueJumpsDoneNumber { get; set; }
 
         [Address(0xBA6774)]
-        public int MapTargetEnum { get; set; }
-
-        //0 = disabled
-        //1 = enabled
+        public bool MapTarget { get; set; } /* DWORD ? */
 
         [Address(0x86329C)]
         public int ListOfValidCommandNames { get; set; }
@@ -217,21 +210,13 @@ namespace SAMemAPI
         public int ArrayOfPointersToRwTextureCorrespondingToOpcode038F { get; set; }
 
         [Address(0xA444A0)]
-        public int IsHUDEnabledByAnOpcode0826Enum { get; set; }
+        public bool IsHUDEnabledByAnOpcode0826 { get; set; } /* DWORD ? */
 
-        //0 = disabled
-        //1 = enabled
-
+        /// <summary>
+        /// </summary>
+        /// <remarks>Characters appear in reversed order</remarks>
         [Address(0x969110, 30)]
-        public string BufferOf30LastTypedCharsEarlierTypedCharsAreOnNextByt { get; set; }
-
-        /*
-         * DirectX / Rendering
-         * 0xC97C1C - A copy of the window handle that is used to initialize the DirectX device.
-         * 0xC97C20 - Pointer to IDirect3D9 interface.
-         * 0xC97C28 - Pointer to IDirect3DDevice9 interface.
-         * 0xC9C040 - Global instance of D3DPRESENT_PARAMETERS structure.
-         */
+        public string BufferOf30LastTypedChars { get; set; }
 
         [Address(0xB793D4)]
         public float FatStat { get; set; }
@@ -284,267 +269,9 @@ namespace SAMemAPI
         [Address(0x86636C, 64)]
         public string StatsFileTitle { get; set; }
 
-        //CHEATS START
+        [Address(0)]
+        public Cheats Cheats { get; set; }
 
-        [Address(0x969130)]
-        public int WeaponSet1 { get; set; }
-
-        [Address(0x969131)]
-        public int WeaponSet2 { get; set; }
-
-        [Address(0x969132)]
-        public int WeaponSet3 { get; set; }
-
-        [Address(0x969133)]
-        public int HealthArmor250K { get; set; }
-
-        [Address(0x969134)]
-        public int IncreaseWantedLevel2Stars { get; set; }
-
-        [Address(0x969135)]
-        public int ClearWantedLevel { get; set; }
-
-        [Address(0x969136)]
-        public int SunnyWeather { get; set; }
-
-        [Address(0x969137)]
-        public int VerySunnyWeather { get; set; }
-
-        [Address(0x969138)]
-        public int OvercastWeather { get; set; }
-
-        [Address(0x969139)]
-        public int RainyWeather { get; set; }
-
-        [Address(0x96913A)]
-        public int FoggyWeather { get; set; }
-
-        [Address(0x96913B)]
-        public int FasterClock { get; set; }
-
-        [Address(0x96913C)]
-        public int FasterGameplay { get; set; }
-
-        [Address(0x96913D)]
-        public int SlowerGameplay { get; set; }
-
-        [Address(0x96913E)]
-        public int PedsAttackEachOtherWithGolfclub { get; set; }
-
-        [Address(0x96913F)]
-        public int HaveBountyOnHead { get; set; }
-
-        [Address(0x969140)]
-        public int EveryoneIsArmed { get; set; }
-
-        [Address(0x969141)]
-        public int SpawnRhino { get; set; }
-
-        [Address(0x969142)]
-        public int SpawnBloodringBanger { get; set; }
-
-        [Address(0x969143)]
-        public int SpawnRancher { get; set; }
-
-        [Address(0x969144)]
-        public int SpawnRacecarA { get; set; }
-
-        [Address(0x969145)]
-        public int SpawnRacecarB { get; set; }
-
-        [Address(0x969146)]
-        public int SpawnRomero { get; set; }
-
-        [Address(0x969147)]
-        public int SpawnStretch { get; set; }
-
-        [Address(0x96914A)]
-        public int BlowUpAllCars { get; set; }
-
-        [Address(0x96914B)]
-        public int WheelsOnly { get; set; }
-
-        [Address(0x96914C)]
-        public int PerfectHandling { get; set; }
-
-        [Address(0x96914D)]
-        public int Suicide { get; set; }
-
-        [Address(0x96914E)]
-        public int AllGreenLights { get; set; }
-
-        [Address(0x96914F)]
-        public int AggressiveDrivers { get; set; }
-
-        [Address(0x969150)]
-        public int PinkTraffic { get; set; }
-
-        [Address(0x969151)]
-        public int BlackTraffic { get; set; }
-
-        [Address(0x969152)]
-        public int CarsCanDriveOnWater { get; set; }
-
-        [Address(0x969153)]
-        public int BoatsCanFly { get; set; }
-
-        [Address(0x969154)]
-        public int CJIsFat { get; set; }
-
-        [Address(0x969155)]
-        public int MaxMuscle { get; set; }
-
-        [Address(0x969156)]
-        public int CJIsSkinny { get; set; }
-
-        [Address(0x969157)]
-        public int ElvisEverywhere { get; set; }
-
-        [Address(0x969158)]
-        public int PedsAttackWithRockets { get; set; }
-
-        [Address(0x969159)]
-        public int BeachTheme { get; set; }
-
-        [Address(0x96915A)]
-        public int GangMembersEverywhere { get; set; }
-
-        [Address(0x96915B)]
-        public int GangsControlTheStreets { get; set; }
-
-        [Address(0x96915C)]
-        public int NinjaTheme { get; set; }
-
-        [Address(0x96915D)]
-        public int SlutMagnet { get; set; }
-
-        [Address(0x96915E)]
-        public int TrafficIsCheapCars { get; set; }
-
-        [Address(0x96915F)]
-        public int TrafficIsFastCars { get; set; }
-
-        [Address(0x969160)]
-        public int CarsCanFly { get; set; }
-
-        [Address(0x969161)]
-        public int HugeBunnyHop { get; set; }
-
-        [Address(0x969162)]
-        public int SpawnHydra { get; set; }
-
-        [Address(0x969163)]
-        public int SpawnVortexHovercraft { get; set; }
-
-        [Address(0x969164)]
-        public int TankModeSmashNBoom { get; set; }
-
-        [Address(0x969165)]
-        public int AllCarsHaveNitro { get; set; }
-
-        [Address(0x969166)]
-        public int CarsFloatAwayWhenHit { get; set; }
-
-        [Address(0x969167)]
-        public int AlwaysMidnight { get; set; }
-
-        [Address(0x969168)]
-        public int StopGameClockOrangeSky { get; set; }
-
-        [Address(0x969169)]
-        public int Thunderstorm { get; set; }
-
-        [Address(0x96916A)]
-        public int Sandstorm { get; set; }
-
-        [Address(0x96916C)]
-        public int MegaJump { get; set; }
-
-        [Address(0x96916D)]
-        public int InfiniteHealth { get; set; }
-
-        [Address(0x96916E)]
-        public int InfiniteOxygen { get; set; }
-
-        [Address(0x96916F)]
-        public int GetParachute { get; set; }
-
-        [Address(0x969170)]
-        public int GetJetpack { get; set; }
-
-        [Address(0x969171)]
-        public int NeverWanted { get; set; }
-
-        [Address(0x969172)]
-        public int SixStarWantedLevel { get; set; }
-
-        [Address(0x969173)]
-        public int MegaPunch { get; set; }
-
-        [Address(0x969174)]
-        public int NeverGetHungry { get; set; }
-
-        [Address(0x969175)]
-        public int PedsRiot { get; set; }
-
-        [Address(0x969176)]
-        public int FunhouseTheme { get; set; }
-
-        [Address(0x969177)]
-        public int SlowerGameplay2 { get; set; }
-
-        [Address(0x969178)]
-        public int InfiniteAmmoNoReload { get; set; }
-
-        [Address(0x969179)]
-        public int FullWeaponAimingWhileDriving { get; set; }
-
-        [Address(0x96917A)]
-        public int DecreasedTraffic { get; set; }
-
-        [Address(0x96917B)]
-        public int TrafficIsCountryVehicles { get; set; }
-
-        [Address(0x96917C)]
-        public int RecruitAnyone9MM { get; set; }
-
-        [Address(0x96917D)]
-        public int CountryTheme { get; set; }
-
-        [Address(0x96917E)]
-        public int RecruitAnyoneRockets { get; set; }
-
-        [Address(0x96917F)]
-        public int MaxRespect { get; set; }
-
-        [Address(0x969180)]
-        public int MaxSexAppeal { get; set; }
-
-        [Address(0x969181)]
-        public int MaxStamina { get; set; }
-
-        [Address(0x969183)]
-        public int HitmanInAllWeapons { get; set; }
-
-        [Address(0x969184)]
-        public int SpawnHunter { get; set; }
-
-        [Address(0x969185)]
-        public int SpawnQuad { get; set; }
-
-        [Address(0x969186)]
-        public int SpawnTankerTruck { get; set; }
-
-        [Address(0x969187)]
-        public int SpawnDozer { get; set; }
-
-        [Address(0x969188)]
-        public int SpawnStuntPlane { get; set; }
-
-        [Address(0x969189)]
-        public int SpawnMonste { get; set; }
-
-        //END CHEATS
 
         [Address(0x96918C)]
         public int HasEverCheatedOrNot { get; set; }
@@ -557,11 +284,9 @@ namespace SAMemAPI
 
 
         [Address(0x96918C)]
-        public int CheatedStateEnum { get; set; }
+        public bool CheatedState { get; set; } /* DWORD ? */
 
-//0 = disabled
-//1 = enabled
-//Note: If it's set to 1 you'll get a warning message when saving a game. But this byte doesn't get set if you use a cheat enabler.
+        //Note: If it's set to 1 you'll get a warning message when saving a game. But this byte doesn't get set if you use a cheat enabler.
 
         [Address(0xBA6784)]
         public int Brightness { get; set; }
@@ -570,17 +295,11 @@ namespace SAMemAPI
         public byte Legend { get; set; }
 
         [Address(0xBA676C)]
-        public byte RadarModeEnum { get; set; }
-
-/*0 = maps & blips
-1 = blips
-2 = off*/
+        public RadarMode RadarMode { get; set; }
 
         [Address(0xBA6769)]
-        public int HudMode { get; set; }
+        public HudMode HudMode { get; set; }
 
-/*0 = off
-1 = on*/
 
         [Address(0xBA678C)]
         public byte Subtitles { get; set; }
@@ -727,24 +446,24 @@ Thanks to AlienX For the station names and ID's
             get { return new CIgnored(Memory[0xB7CD9C]); }
         }
 
-        public HandlingPool HandlingPool
+        public Pool<Handling> Handling
         {
-            get { return new HandlingPool(Memory[0xC2B9DC]); }
+            get { return new Pool<Handling>(Memory[0xC2B9DC], 224, 212); }
         }
 
-        public RocketPool RocketPool
+        public Pool<Rocket> Rockets
         {
-            get { return new RocketPool(Memory[0xC891A8]); }
+            get { return new Pool<Rocket>(Memory[0xC891A8], 36, 32); }
         }
 
-        public CheckpointPool CheckpointPool
+        public Pool<CGarage> Garages
         {
-            get { return new CheckpointPool(Memory[0xC7F158]); }
+            get { return new Pool<CGarage>(Memory[0x96C048], 0xD4, 50); }
         }
 
-        public CGaragePool GaragePool
+        public Pool<Checkpoint> Checkpoints
         {
-            get { return new CGaragePool(Memory[0x96C048]); }
+            get { return new Pool<Checkpoint>(Memory[0xC7F158], 38, 2); }
         }
 
         [Address(0xBAB22C)]
@@ -782,76 +501,4 @@ Thanks to AlienX For the station names and ID's
             return Process.GetProcessesByName("gta_sa").Select(p => new Game(p));
         }
     }
-
-    /*
-        * 
-        * Things not added yet
-         
-     * * cars in garage ???
-     * menu data
-        Camera
-    0xB6F028 - Camera Block Start (CCamera)
-    0x52B730 - Start of camera 'MOVer' subroutine:
-    0xC3 = lock camera (retn)
-    0xB6F0DC - [dword] Current View:
-    0 = bumper View
-    1 = close external view
-    2 = middle external view
-    3 = furthest external view
-    4 = nothing = same as last?
-    5 = cinematic view
-    6 to INF = same as 4?
-    0xB6F0E0 - [float] Car View Distance (arm length)
-    0xB6F0E8 - [float] True View Distance (true arm length)
-        * 
-        * 
-        * ???
-        * 0xB6F3B8 = Pointer to Target.
-
-        +0x79C [dword] = Targetted CPed:
-        0 = no cped targetted
-        +0xC0 = Pointer to last object (ped, car, maybe others) you collided with
-        * 
-        * 
-        * Controls
-        0xB73458 - Start of controls block.
-
-        +0x20 = [word] Accelerate:
-        0 = off
-        255 = on
-        +0x22 = [word] Brake
-        */
-
-    /*
-    public class Bullet : MemoryObject
-    {
-        //Note: It works only for Sniper Rifle
-        public Bullet(ProcessMemory memory) : base(memory)
-        {
-        }
-
-        [Address(12)]
-        public byte BulletExists { get; set; }
-
-        //0 = Does not exist
-        //1 = Exists
-        [Address(16)]
-        public float X { get; set; }
-
-        [Address(20)]
-        public float Y { get; set; }
-
-        [Address(24)]
-        public float Z { get; set; }
-
-    }
-
-    public class BulletPool : MemoryObject
-    {//Start at 0xC88740 
-
-        //block size unknown
-        public BulletPool(ProcessMemory memory) : base(memory)
-        {
-        }
-    }*/
 }

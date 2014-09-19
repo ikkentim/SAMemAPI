@@ -12,24 +12,33 @@
 // For more information, please refer to <http://unlicense.org>
 
 using System;
+using System.Linq;
+using SAMemAPI;
 
-namespace SAMemAPI
+namespace MemTest
 {
-    public class RocketPool : MemoryObject
+    internal class Program
     {
-        public RocketPool(ProcessMemory memory)
-            : base(memory)
+        private static void Main(string[] args)
         {
-        }
+            Game m = Game.Get().First();
 
-        public Rocket this[int index]
-        {
-            get
-            {
-                if (index >= 32) throw new Exception();
+            Console.WriteLine(m.MapTarget);
+            Console.WriteLine(m.IsHUDEnabledByAnOpcode0826);
 
-                return new Rocket(Memory[36*index]);
-            }
+            CPed pl = m.PlayerPointer;
+
+            PlayerPosition pos = pl.Position;
+
+            Console.WriteLine(pos.X);
+
+            m.CurrentHour = 6;
+            m.CurrentMinute = 0;
+            pos.X = 1500;
+            pos.Y = -1500;
+            pos.Z = 15;
+
+            Console.ReadLine();
         }
     }
 }
