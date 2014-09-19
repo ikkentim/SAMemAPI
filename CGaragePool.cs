@@ -11,23 +11,24 @@
 // 
 // For more information, please refer to <http://unlicense.org>
 
+using System;
+
 namespace SAMemAPI
 {
-    public class PlayerPosition : MemoryObject
+    public class CGaragePool : MemoryObject
     {
-        public PlayerPosition(ProcessMemory memory) : base(memory)
+        public CGaragePool(ProcessMemory memory) : base(memory)
         {
         }
 
-        //(CPed+0x14) +0x0 to +0x2C = [dword] Is the rotation matrix
+        public CGarage this[int index]
+        {
+            get
+            {
+                if (index >= 50) throw new Exception();
 
-        [Address(0x30)]
-        public float X { get; set; }
-
-        [Address(0x34)]
-        public float Y { get; set; }
-
-        [Address(0x38)]
-        public float Z { get; set; }
+                return new CGarage(Memory[0xD4*index]);
+            }
+        }
     }
 }

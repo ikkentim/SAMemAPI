@@ -1,8 +1,20 @@
-﻿using System.Collections.Generic;
+﻿// SAMemAPI
+// Copyright (C) 2014 Tim Potze
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// 
+// For more information, please refer to <http://unlicense.org>
+
+//Thanks to : http://www.gtamodding.com/?title=Memory_Addresses_(SA)
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-//Thanks to : http://www.gtamodding.com/?title=Memory_Addresses_(SA)
-using System.Security;
 
 namespace SAMemAPI
 {
@@ -10,11 +22,6 @@ namespace SAMemAPI
     {
         private Game(ProcessMemory memory) : base(memory)
         {
-        }
-
-        public static IEnumerable<Game> Get()
-        {
-            return Process.GetProcessesByName("gta_sa").Select(p => new Game(p));
         }
 
         [Address(0xA49D54)]
@@ -275,7 +282,7 @@ namespace SAMemAPI
         public string StatsFileName { get; set; }
 
         [Address(0x86636C, 64)]
-        public int StatsFileTitle { get; set; }
+        public string StatsFileTitle { get; set; }
 
         //CHEATS START
 
@@ -703,13 +710,148 @@ Thanks to AlienX For the station names and ID's
          */
 
         [Address(0xBA18FC)]
-        private  CVehicle CurrentVehiclePointer { get; set; }
+        private CVehicle CurrentVehiclePointer { get; set; }
 
         public CVehicle CurrentVehicle
         {
             get { return Memory[0xBA18FC] == 0 ? null : CurrentVehiclePointer; }
         }
 
-        //TODO: Camera and down still to be done (from wiki)
+        public CWanted Wanted
+        {
+            get { return new CWanted(Memory[0xB7CD9C]); }
+        }
+
+        public CIgnored Ignored
+        {
+            get { return new CIgnored(Memory[0xB7CD9C]); }
+        }
+
+        public HandlingPool HandlingPool
+        {
+            get { return new HandlingPool(Memory[0xC2B9DC]); }
+        }
+
+        public RocketPool RocketPool
+        {
+            get { return new RocketPool(Memory[0xC891A8]); }
+        }
+
+        public CheckpointPool CheckpointPool
+        {
+            get { return new CheckpointPool(Memory[0xC7F158]); }
+        }
+
+        public CGaragePool GaragePool
+        {
+            get { return new CGaragePool(Memory[0x96C048]); }
+        }
+
+        [Address(0xBAB22C)]
+        public byte HealthBarRedTextEnemyMarkerAnythingRedColor { get; set; }
+
+        [Address(0xBAB230)]
+        public byte MoneyFontColorVehicleEntryNameGreenTextAnythingGreenColor { get; set; }
+
+        [Address(0xBAB238)]
+        public byte WhiteTextColor { get; set; }
+
+        [Address(0xBAB240)]
+        public byte MainMenuTitleBorder { get; set; }
+
+        [Address(0xBAB244)]
+        public byte WantedLevelColor { get; set; }
+
+        [Address(0xBAB24C)]
+        public byte RadioStationTextColor { get; set; }
+
+        [Address(0xBAB258)]
+        public byte YellowBlipTextColor { get; set; }
+
+        [Address(0xC81318)]
+        public short WeatherLock { get; set; }
+
+        [Address(0xC8131C)]
+        public short UpcomingWeather { get; set; }
+
+        [Address(0xC81320)]
+        public short CurrentWeather { get; set; }
+
+        public static IEnumerable<Game> Get()
+        {
+            return Process.GetProcessesByName("gta_sa").Select(p => new Game(p));
+        }
     }
+
+    /*
+        * 
+        * Things not added yet
+         
+     * * cars in garage ???
+     * menu data
+        Camera
+    0xB6F028 - Camera Block Start (CCamera)
+    0x52B730 - Start of camera 'MOVer' subroutine:
+    0xC3 = lock camera (retn)
+    0xB6F0DC - [dword] Current View:
+    0 = bumper View
+    1 = close external view
+    2 = middle external view
+    3 = furthest external view
+    4 = nothing = same as last?
+    5 = cinematic view
+    6 to INF = same as 4?
+    0xB6F0E0 - [float] Car View Distance (arm length)
+    0xB6F0E8 - [float] True View Distance (true arm length)
+        * 
+        * 
+        * ???
+        * 0xB6F3B8 = Pointer to Target.
+
+        +0x79C [dword] = Targetted CPed:
+        0 = no cped targetted
+        +0xC0 = Pointer to last object (ped, car, maybe others) you collided with
+        * 
+        * 
+        * Controls
+        0xB73458 - Start of controls block.
+
+        +0x20 = [word] Accelerate:
+        0 = off
+        255 = on
+        +0x22 = [word] Brake
+        */
+
+    /*
+    public class Bullet : MemoryObject
+    {
+        //Note: It works only for Sniper Rifle
+        public Bullet(ProcessMemory memory) : base(memory)
+        {
+        }
+
+        [Address(12)]
+        public byte BulletExists { get; set; }
+
+        //0 = Does not exist
+        //1 = Exists
+        [Address(16)]
+        public float X { get; set; }
+
+        [Address(20)]
+        public float Y { get; set; }
+
+        [Address(24)]
+        public float Z { get; set; }
+
+    }
+
+    public class BulletPool : MemoryObject
+    {//Start at 0xC88740 
+
+        //block size unknown
+        public BulletPool(ProcessMemory memory) : base(memory)
+        {
+        }
+    }*/
 }

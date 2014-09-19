@@ -11,23 +11,25 @@
 // 
 // For more information, please refer to <http://unlicense.org>
 
+using System;
+
 namespace SAMemAPI
 {
-    public class PlayerPosition : MemoryObject
+    public class RocketPool : MemoryObject
     {
-        public PlayerPosition(ProcessMemory memory) : base(memory)
+        public RocketPool(ProcessMemory memory)
+            : base(memory)
         {
         }
 
-        //(CPed+0x14) +0x0 to +0x2C = [dword] Is the rotation matrix
+        public Rocket this[int index]
+        {
+            get
+            {
+                if (index >= 32) throw new Exception();
 
-        [Address(0x30)]
-        public float X { get; set; }
-
-        [Address(0x34)]
-        public float Y { get; set; }
-
-        [Address(0x38)]
-        public float Z { get; set; }
+                return new Rocket(Memory[36*index]);
+            }
+        }
     }
 }

@@ -39,12 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Checkpoint.cs" />
+    <Compile Include="CheckpointPool.cs" />
+    <Compile Include="CIgnored.cs" />
     <Compile Include="CPed.cs" />
     <Compile Include="CPedPool.cs" />
     <Compile Include="CVehicle.cs" />
     <Compile Include="CVehiclePool.cs" />
+    <Compile Include="CWanted.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="AddressAttribute.cs" />
+    <Compile Include="CGarage.cs" />
+    <Compile Include="CGaragePool.cs" />
+    <Compile Include="Handling.cs" />
+    <Compile Include="HandlingPool.cs" />
     <Compile Include="MemoryObject.cs" />
     <Compile Include="PlayerPosition.cs" />
     <Compile Include="ProcessMemory.cs" />
@@ -52,6 +60,8 @@
     <Compile Include="Proxy\GameObjectAttribute.cs" />
     <Compile Include="Proxy\GameObjectProperty.cs" />
     <Compile Include="Proxy\GameObjectSink.cs" />
+    <Compile Include="Rocket.cs" />
+    <Compile Include="RocketPool.cs" />
     <Compile Include="VehiclePosition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

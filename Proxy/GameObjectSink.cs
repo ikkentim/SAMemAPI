@@ -1,4 +1,17 @@
-﻿using System;
+﻿// SAMemAPI
+// Copyright (C) 2014 Tim Potze
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+// OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// 
+// For more information, please refer to <http://unlicense.org>
+
+using System;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 
@@ -18,7 +31,7 @@ namespace SAMemAPI.Proxy
 
         public IMessage SyncProcessMessage(IMessage msg)
         {
-            IMethodCallMessage mcm = (msg as IMethodCallMessage);
+            var mcm = (msg as IMethodCallMessage);
 
             PreProcess(ref mcm);
 
@@ -34,53 +47,52 @@ namespace SAMemAPI.Proxy
         {
             if (msg.MethodName.StartsWith("get_"))
             {
-                var property = _target.GetType().GetProperty(msg.MethodName.Substring(4));
-                 var attribute = property.GetCustomAttribute<AddressAttribute>();
+                PropertyInfo property = _target.GetType().GetProperty(msg.MethodName.Substring(4));
+                var attribute = property.GetCustomAttribute<AddressAttribute>();
 
                 if (property.CanWrite && attribute != null)
                 {
-                    var mem = _target.Memory[attribute.Address];
+                    ProcessMemory mem = _target.Memory[attribute.Address];
 
-                    if (property.PropertyType == typeof (int)) 
+                    if (property.PropertyType == typeof (int))
                         property.SetValue(_target, mem.AsInteger());
                     if (property.PropertyType == typeof (byte))
                         property.SetValue(_target, mem.AsByte());
-                    if (property.PropertyType == typeof(byte[])) 
+                    if (property.PropertyType == typeof (byte[]))
                         property.SetValue(_target, mem.AsBytes(attribute.Length));
-                    if (property.PropertyType == typeof(float)) 
+                    if (property.PropertyType == typeof (float))
                         property.SetValue(_target, mem.AsFloat());
-                    if (property.PropertyType == typeof(short)) 
+                    if (property.PropertyType == typeof (short))
                         property.SetValue(_target, mem.AsShort());
-                    if (property.PropertyType == typeof(string)) 
+                    if (property.PropertyType == typeof (string))
                         property.SetValue(_target, mem.AsString(attribute.Length));
                     if (property.PropertyType.IsSubclassOf(typeof (MemoryObject)))
                         property.SetValue(_target, Activator.CreateInstance(property.PropertyType, mem.AsPointer()));
-                   
                 }
             }
 
             if (msg.MethodName.StartsWith("set_"))
             {
-                var property = _target.GetType().GetProperty(msg.MethodName.Substring(4));
+                PropertyInfo property = _target.GetType().GetProperty(msg.MethodName.Substring(4));
                 var attribute = property.GetCustomAttribute<AddressAttribute>();
 
                 if (property.CanWrite && attribute != null)
                 {
-                    var mem = _target.Memory[attribute.Address];
+                    ProcessMemory mem = _target.Memory[attribute.Address];
 
-                    if (property.PropertyType == typeof(int))
-                        mem.Set((int)msg.GetArg(0));
-                    if (property.PropertyType == typeof(byte)) 
-                        mem.Set((byte)msg.GetArg(0));
-                    if (property.PropertyType == typeof(byte[]))
-                        mem.Set((byte[])msg.GetArg(0));
-                    if (property.PropertyType == typeof(float))
-                        mem.Set((float)msg.GetArg(0));
-                    if (property.PropertyType == typeof(short))
-                        mem.Set((short)msg.GetArg(0));
-                    if (property.PropertyType == typeof(string))
-                        mem.Set((string)msg.GetArg(0));
-                    if (property.PropertyType.IsSubclassOf(typeof(MemoryObject)))
+                    if (property.PropertyType == typeof (int))
+                        mem.Set((int) msg.GetArg(0));
+                    if (property.PropertyType == typeof (byte))
+                        mem.Set((byte) msg.GetArg(0));
+                    if (property.PropertyType == typeof (byte[]))
+                        mem.Set((byte[]) msg.GetArg(0));
+                    if (property.PropertyType == typeof (float))
+                        mem.Set((float) msg.GetArg(0));
+                    if (property.PropertyType == typeof (short))
+                        mem.Set((short) msg.GetArg(0));
+                    if (property.PropertyType == typeof (string))
+                        mem.Set((string) msg.GetArg(0));
+                    if (property.PropertyType.IsSubclassOf(typeof (MemoryObject)))
                     {
                         object value = msg.GetArg(0);
                         if (value != null)

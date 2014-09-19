@@ -13,21 +13,29 @@
 
 namespace SAMemAPI
 {
-    public class PlayerPosition : MemoryObject
+    public class Checkpoint : MemoryObject
     {
-        public PlayerPosition(ProcessMemory memory) : base(memory)
+        public Checkpoint(ProcessMemory memory) : base(memory)
         {
         }
 
-        //(CPed+0x14) +0x0 to +0x2C = [dword] Is the rotation matrix
+        [Address(0)]
+        public byte TypeOfCheckpoint { get; set; }
 
-        [Address(0x30)]
+        [Address(2)]
+        public byte RGBAColorValue { get; set; }
+
+        [Address(4)]
         public float X { get; set; }
 
-        [Address(0x34)]
+        [Address(8)]
         public float Y { get; set; }
 
-        [Address(0x38)]
+        [Address(12)]
         public float Z { get; set; }
+
+        //+16 to +2//4 = [float] Rotation Matrix (direction from this checkpoint to the next, all floats)
+        [Address(32)]
+        public float CheckpointRadius { get; set; }
     }
 }

@@ -13,21 +13,43 @@
 
 namespace SAMemAPI
 {
-    public class PlayerPosition : MemoryObject
+    public class Rocket : MemoryObject
     {
-        public PlayerPosition(ProcessMemory memory) : base(memory)
+        public Rocket(ProcessMemory memory) : base(memory)
         {
         }
 
-        //(CPed+0x14) +0x0 to +0x2C = [dword] Is the rotation matrix
+        [Address(0)]
+        public int RocketType { get; set; }
 
-        [Address(0x30)]
+/*
+16 = none
+17 = tear gas
+19 = normal
+20 = heatseeking
+39 = remote explosives
+58 = flare*/
+
+        [Address(4)]
+        public int PointerToLaunchingEntity { get; set; }
+
+        [Address(8)]
+        public int PointerToTargetVehicle0Otherwise { get; set; }
+
+        [Address(16)]
+        public byte DoesRocketExist { get; set; }
+
+        /*
+0 = exploded/does not exist
+1 = travelling*/
+
+        [Address(20)]
         public float X { get; set; }
 
-        [Address(0x34)]
+        [Address(24)]
         public float Y { get; set; }
 
-        [Address(0x38)]
+        [Address(28)]
         public float Z { get; set; }
     }
 }
